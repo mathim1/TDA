@@ -1,0 +1,12 @@
+# Ignorar el entorno virtual
+venv/
+env/
+
+# Ignorar archivos compilados
+*.pyc
+
+# Ignorar la base de datos local de Django
+db.sqlite3
+
+# Ignorar los archivos de cache de Python
+__pycache__/

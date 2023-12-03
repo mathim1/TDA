@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interfaz de usuario</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+  
+    .options {
+/*      display: flex; /*esto impide que todo se vaya abajo*/
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .option {
+      width: 500px;
+      height: 50px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .option:hover {
+      background-color: #f8f8f8;
+    }
+
+    .option span {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+    <center>
+  <h1>¿que desea hacer?
+  </h1>
+
+  <div class="options">
+    <div class="option">
+      <span>Venta de productos</span>
+    </div><br>
+    <div class="option">
+      <span>consultar productos</span>
+    </div><br>
+    <div class="option">
+      <span>registrar cliente</span>
+    </div><br>
+    <div class="option">
+      <span>salir</span>
+    </div>
+  </div>
+</center>
+</body>
+</html>

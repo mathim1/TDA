@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div class="alert alert-info display-1 text-center">LISTADO DE FACTURAS</div>
+        {% if facturas %}
+
+        <table class="table table-striped table-inverse table-responsive">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>sitio_compra</th>
+                    <th>fecha_emision</th>
+                    <th>nro_factura</th>
+                    <th>nombre_producto</th>
+                    <th>cantidad</th>
+                    <th>precio</th>
+                    <th>proveedor</th>
+                    <th>-</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in facturas %}
+                <tr>
+                    <td>{{ b.sitio_compra }}</td>
+                    <td> {{ b.fecha_emision }} </td>
+                    <td> {{ b.nro_factura }} </td>
+                    <td> {{ b.nombre_producto }} </td>
+                    <td> {{ b.cantidad }} </td>
+                    <td> {{ b.precio }} </td>   
+                    <td> {{ b.proveedor }} </td>          
+                    <td><a href="/actualizarFactura/{{b.nro_factura}}" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-primary" role="alert">
+            <strong>no  hya bnada</strong>
+        </div>
+
+        {% endif %}
+
+    
+        <a href="../agregarFactura" class="btn btn-info float-end">AGREGAR FACTURAS</a>
+    
+</body>
+</html>
