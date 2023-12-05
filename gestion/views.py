@@ -7,6 +7,7 @@ from .utils.verificar_nombre import verificar_nombre
 from .utils.ingresarUser import ingresarUser
 from .utils.redireccion import *
 from .utils.ingresarDef import *
+from .utils.loginSinhash import *
 from django.contrib import messages
 
 
