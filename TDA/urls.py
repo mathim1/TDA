@@ -16,29 +16,31 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from gestion.views import *
+from gestion.views import BoletaCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', login_view, name='login'),
     path('logout/', signout, name='logout'),
     path('interfaz_admin/',Interfaz_admin),
+    path('Interfaz_empleado/',Interfaz_empleado),
     #productos
     path('productos/',listadoProductos),
-    path('agregarProducto/',agregarProducto),
-    path('eliminarProducto/<int:codigo_barra>',eliminarProducto),
-    path('actualizarProducto/<int:codigo_barra>',actualizarProducto),
+    path('agregarProducto/',crear_producto),
+    path('eliminarProducto/<int:id>',eliminarProducto),
+    path('actualizarProducto/<int:id>',actualizarProducto),
     #boletas
     path('boletas/',listadoBoleta),
-    path('agregarBoleta/',agregarBoleta),
-    path('actualizarBoleta/<int:numero_boleta>',actualizarBoleta),
+    path('agregarBoleta/',BoletaCreateView.as_view(), name='crear-boleta'),
+    path('actualizarBoleta/<int:id>',actualizarBoleta),
     path('venta/',venta),
     #facturas
     path('facturas/',listadoFactura),
-    path('agregarFactura/',agregarFactura),
-    path('actualizarFactura/<int:nro_factura>',actualizarFactura),
+    path('agregarFactura/',create_detalle_factura),
+    path('actualizarFactura/<int:id>',actualizarFactura),
     #empleados
     path('users/',listadousers),
-    path('agregarUser/',agregarUser),
-    path('actualizarUser/<int:rut>',actualizarUser)
+    path('agregarUser/',create_user),
+    path('actualizarUser/<int:id>',actualizarUser)
     #re_path(r'^articulo/(?P<titulo>[\w\s-]+)/$', views.articulo_detalle, name='articulo_detalle'),
 ]

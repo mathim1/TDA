@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Crear Boleta</title>
 </head>
 <body>
+    <h2>Crear Boleta</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="AGREGAR BOLETA" class="btn btn-info">
+        {{ form.as_p }}  <!-- Muestra el formulario de Boleta -->
+
+        <h3>Detalles de la Boleta</h3>
+        <!-- Itera sobre cada formulario en línea de DetalleBoleta -->
+        {% for formset in inlines %}
+            {{ formset.management_form }}  <!-- Incluye el formulario de gestión -->
+            {% for detail_form in formset %}
+                {{ detail_form.as_p }}  <!-- Muestra cada formulario de DetalleBoleta -->
+            {% endfor %}
+        {% endfor %}
+
+        <button type="submit">Guardar</button>
     </form>
 </body>
 </html>

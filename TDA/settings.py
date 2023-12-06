@@ -75,9 +75,9 @@ import cx_Oracle
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'ub5q3vxww25l3i72_high',
+        'NAME': 'z2snnosfclokpcf4_high',
         'USER': 'ADMIN',
-        'PASSWORD': 'Ak5G627NyiNDSu',
+        'PASSWORD': '9hpME6K6WFUbHU',
     },
 }
 

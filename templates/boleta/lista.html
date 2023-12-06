@@ -14,6 +14,7 @@
         <table class="table table-striped table-inverse table-responsive">
             <thead class="thead-inverse">
                 <tr>
+                    <th>ID</th>
                     <th>direccion_venta</th>
                     <th>fecha_emision</th>
                     <th>numero_boleta</th>
@@ -25,12 +26,13 @@
             <tbody>
                 {% for b in boletas %}
                 <tr>
+                    <td> {{ b.id }} </td>
                     <td>{{ b.direccion_venta }}</td>
                     <td> {{ b.fecha_emision }} </td>
                     <td> {{ b.numero_boleta }} </td>
                     <td> {{ b.cantidad }} </td>
                     <td> {{ b.monto }} </td>            
-                    <td><a href="/actualizarBoleta/{{b.numero_boleta}}" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></a></td>
+                    <td><a href="/actualizarBoleta/{{b.id}}" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -44,6 +46,7 @@
 
     
         <a href="../agregarBoleta" class="btn btn-info float-end">AGREGAR BOLETAS</a>
+        <a href="http://127.0.0.1:8000/interfaz_admin/">INICIO</a>
     
 </body>
 </html>
