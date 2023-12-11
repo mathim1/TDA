@@ -24,6 +24,7 @@ class Boleta(models.Model):
     direccion_venta = models.CharField(max_length=50, default='')
     fecha_emision = models.DateTimeField(auto_now_add=True)
     numero_boleta = models.UUIDField(default=uuid.uuid4, unique=True)
+    valor = models.DecimalField(max_digits=10, decimal_places=2 , default=0.00)
 
 
 class Detalle_boleta(models.Model):
@@ -38,17 +39,15 @@ class Factura(models.Model):
     sitio_compra = models.CharField(max_length=50)
     fecha_emision = models.DateTimeField(auto_now_add=True)
     nro_factura = models.UUIDField(default=uuid.uuid4, unique=True)
+    valor = models.DecimalField(max_digits=10, decimal_places=2 , default=0.00)
 
-    
 
 
-class Detalle_factura(Factura):
+class Detalle_factura(models.Model):
+    Factura = models.ForeignKey(Factura, on_delete = models.CASCADE)
     nombre_producto = models.CharField(max_length=50)
     cantidad = models.IntegerField()
     precio = models.IntegerField()
-    proveedor = models.CharField(max_length=50)
-    
-    
     
 
 

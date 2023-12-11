@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>LISTADO DE CLIENTES</div>
+        {% if clientes %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>apellido_p</th>
+                    <th>apellido_m</th>
+                    <th>rut</th>
+                    <th>email</th>
+                    <th>telefono</th>
+                    <th>-</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in clientes %}
+                <tr>
+                    <td>{{ p.nombre }}</td>
+                    <td> {{ p.apellido_p }} </td>
+                    <td> {{ p.apellido_m }} </td>
+                    <td> {{ p.rut }} </td>
+                    <td> {{ p.email }} </td>
+                    <td> {{ p.telefono }} </td>
+                    {% block content %}
+                    <td><a href="/actualizarCliente/{{p.id}}" class="btn btn-success btn-sm"><i class="bi bi-pencil">actualizar</i></a></td>
+                    {% endblock %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div>
+            <strong>no  hya bnada</strong>
+        </div>
+
+        {% endif %}
+
+    
+        <a href="../agregarClienteAdmin">AGREGAR</a>
+        <br>
+        <a href="http://127.0.0.1:8000/interfaz_admin/">INICIO</a>
+    
+</body>
+</html>

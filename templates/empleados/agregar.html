@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load static %}
+    <link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <form method="post">
@@ -11,8 +13,11 @@
         {{ form.as_p }}
         {{ password_form.as_p }}
         <input type="submit" value="AGREGAR" class="btn btn-info">
-        <a href="http://127.0.0.1:8000/interfaz_admin/">INICIO</a>
-        <a href="http://127.0.0.1:8000/users/">VOLVER</a>
     </form>
+    <center>
+    <a href="http://127.0.0.1:8000/interfaz_admin/">INICIO</a>
+    <br>
+    <a href="http://127.0.0.1:8000/users/">VOLVER</a>
+    </center>
 </body>
 </html>

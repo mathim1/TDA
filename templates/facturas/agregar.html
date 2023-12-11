@@ -1,18 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Crear Factura</title>
+    {% load static %}
+    <link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <form method="post">
         {% csrf_token %}
-        {{ detalle_factura_form.as_p }}
-        <input type="submit" value="AGREGAR" class="btn btn-info">
-        <a href="http://127.0.0.1:8000/interfaz_admin/">INICIO</a>
-        <a href="http://127.0.0.1:8000/users/">VOLVER</a>
+        {{ factura_form.as_p }}
+
+        <div id="formset-container">
+            {{ formset.management_form }}
+            {% for form in formset %}
+                <div class="formset-form">
+                    {{ form.as_p }}
+                    <button type="button" class="delete-formset">Eliminar Detalle</button>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="add-formset">Agregar Detalle</button>
+        <button type="submit">Guardar</button>
     </form>
+
+    <script>
+        $(document).ready(function() {
+            let formsetContainer = $('#formset-container');
+            let totalForms = $('#id_detalle_factura_set-TOTAL_FORMS');
+            let formsetForm = $('.formset-form').first().clone(); 
+    
+            formsetForm.find(':input').each(function() {
+                $(this).val('');
+            });
+    
+            function updateFormIndices() {
+                formsetContainer.find('.formset-form').each(function(index) {
+                    $(this).find(':input').each(function() {
+                        var name = $(this).attr('name');
+                        if (name) {
+                            name = name.replace(/-\d+-/, `-${index}-`);
+                            var id = `id_${name}`;
+                            $(this).attr({'name': name, 'id': id});
+                        }
+                    });
+                });
+            }
+    
+            // Agregar nuevo formulario
+            $('#add-formset').click(function() {
+                let newForm = formsetForm.clone();
+                let formCount = parseInt(totalForms.val());
+                newForm.find(':input').each(function() {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        name = name.replace(/-\d+-/, `-${formCount}-`);
+                        var id = `id_${name}`;
+                        $(this).attr({'name': name, 'id': id}).val('');
+                    }
+                });
+                totalForms.val(formCount + 1);
+                formsetContainer.append(newForm);
+                updateFormIndices();
+            });
+    
+            // Eliminar un formulario
+            formsetContainer.on('click', '.delete-formset', function() {
+                $(this).closest('.formset-form').remove();
+                let formCount = parseInt(totalForms.val());
+                totalForms.val(formCount - 1);
+                updateFormIndices();
+            });
+        });
+    </script>
+    
+    
+    
 </body>
 </html>

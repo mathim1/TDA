@@ -1,25 +1,82 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Crear Boleta</title>
+    {% load static %}
+    <link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h2>Crear Boleta</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}  <!-- Muestra el formulario de Boleta -->
+        {{ boleta_form.as_p }}
 
-        <h3>Detalles de la Boleta</h3>
-        <!-- Itera sobre cada formulario en línea de DetalleBoleta -->
-        {% for formset in inlines %}
-            {{ formset.management_form }}  <!-- Incluye el formulario de gestión -->
-            {% for detail_form in formset %}
-                {{ detail_form.as_p }}  <!-- Muestra cada formulario de DetalleBoleta -->
+        <div id="formset-container">
+            {{ formset.management_form }}
+            {% for form in formset %}
+                <div class="formset-form">
+                    {{ form.as_p }}
+                    <button type="button" class="delete-formset">Eliminar Detalle</button>
+                </div>
             {% endfor %}
-        {% endfor %}
-
+        </div>
+        <button type="button" id="add-formset">Agregar Detalle</button>
         <button type="submit">Guardar</button>
     </form>
+
+    <script>
+        $(document).ready(function() {
+            let formsetContainer = $('#formset-container');
+            let totalForms = $('#id_detalle_boleta_set-TOTAL_FORMS');
+            let formsetForm = $('.formset-form').first().clone(); // Clona el primer formulario
+    
+            // Limpia los valores de los campos clonados
+            formsetForm.find(':input').each(function() {
+                $(this).val('');
+            });
+    
+            // Función para actualizar los índices de los formularios
+            function updateFormIndices() {
+                formsetContainer.find('.formset-form').each(function(index) {
+                    $(this).find(':input').each(function() {
+                        var name = $(this).attr('name');
+                        if (name) {
+                            name = name.replace(/-\d+-/, `-${index}-`);
+                            var id = `id_${name}`;
+                            $(this).attr({'name': name, 'id': id});
+                        }
+                    });
+                });
+            }
+    
+            // Agregar nuevo formulario
+            $('#add-formset').click(function() {
+                let newForm = formsetForm.clone();
+                let formCount = parseInt(totalForms.val());
+                newForm.find(':input').each(function() {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        name = name.replace(/-\d+-/, `-${formCount}-`);
+                        var id = `id_${name}`;
+                        $(this).attr({'name': name, 'id': id}).val('');
+                    }
+                });
+                totalForms.val(formCount + 1);
+                formsetContainer.append(newForm);
+                updateFormIndices();
+            });
+    
+            // Eliminar un formulario
+            formsetContainer.on('click', '.delete-formset', function() {
+                $(this).closest('.formset-form').remove();
+                let formCount = parseInt(totalForms.val());
+                totalForms.val(formCount - 1);
+                updateFormIndices();
+            });
+        });
+    </script>
+    
+    
+    
 </body>
 </html>

@@ -3,16 +3,31 @@ from .models import *
 import hashlib
 from django.forms import inlineformset_factory
 
+#forms del producto
 class FormProducto(forms.ModelForm):
     class Meta:
         model = Producto
         fields = '__all__'
         
+#forms del cliente        
+class FormCliente(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields = '__all__'
         
+
+#forms de la boleta        
 class BoletaForm(forms.ModelForm):
     class Meta:
         model = Boleta
         fields = '__all__'
+        exclude = ['valor']
+
+class BoletaUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Boleta
+        fields = '__all__'
+        exclude = ['numero_boleta']
     
 
 class DetalleBoletaForm(forms.ModelForm):
@@ -20,34 +35,36 @@ class DetalleBoletaForm(forms.ModelForm):
         model = Detalle_boleta
         fields = [ 'cantidad', 'producto', 'monto']
         
+#forms de la factura
+class FacturaForm(forms.ModelForm):
+    class Meta:
+        model = Factura
+        fields = '__all__'
+        exclude = ['valor']
 
-    
+class FacturaUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Boleta
+        fields = '__all__'
+        exclude = ['nro_factura']
 
-
-class FormFactura(forms.ModelForm):
+class DetalleFacturaForm(forms.ModelForm):
     class Meta:
         model = Detalle_factura
-        fields = ['sitio_compra','nombre_producto','cantidad','precio','proveedor']
+        fields = '__all__'
+        
 
-
+#forms relacionado al usuario
 class LoginForm(forms.Form):
     rut = forms.CharField(label='RUT', max_length=100)
     password = forms.CharField(widget=forms.PasswordInput())
 
-
-class VentaForm(forms.Form):
-    direccion_venta = forms.CharField(max_length=40)
-    cantidad = forms.IntegerField()
-    nombre = forms.CharField(max_length=40)
-    
-    
+        
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['name', 'father_surname', 'mother_surname', 'rut', 'role', 'email', 'sueldo']
     
-    
-
 class PasswordForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 

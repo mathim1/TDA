@@ -14,7 +14,10 @@ def listadoProductos(request):
 
     return render(request, 'producto/lista.html', {'productos': productos})
 
-#hecho
+def listadoProductos_emp(request):
+    productos = Producto.objects.all()
+
+    return render(request, 'producto/lista_emp.html', {'productos': productos})
 
 def crear_producto(request):
     if request.method == 'POST':
@@ -35,8 +38,6 @@ def crear_producto(request):
 
     return render(request, 'producto/agregar.html', {'form': form})
 
-#eleminar aun no funciona
-#30-11-2023: ahora si xddddddddddddddd
 def eliminarProducto(request, id):
     producto = Producto.objects.get(id = id)
     producto.delete()
@@ -56,7 +57,7 @@ def actualizarProducto(request, id):
 
 
 # CRUD boleta
-def listadoBoleta(request):
+'''def listadoBoleta(request):
     boletas = Detalle_boleta.objects.all()
 
     return render(request, 'boleta/lista.html', {'boletas': boletas})
@@ -91,25 +92,63 @@ def actualizarBoleta(request, id):
         return redirect('http://127.0.0.1:8000/boletas/')
 
     return render(request, 'boleta/agregar.html', {'detalle_boleta_form': detalle_boleta_form})
+'''
+def listadoBoleta(request):
+    boletas = Boleta.objects.all()
 
-def venta(request):
+    return render(request, 'boleta/lista.html', {'boletas': boletas})
+
+
+def crear_boleta(request):
+    DetalleBoletaFormSet = inlineformset_factory(Boleta, Detalle_boleta, fields=('cantidad', 'producto', 'monto'), extra=1)
+
     if request.method == 'POST':
-        form = VentaForm(request.POST)
-        if form.is_valid():
-            direccion = form.cleaned_data['direccion_venta']
-            cantidad = form.cleaned_data['cantidad']
-            nombre = form.cleaned_data['nombre']
-            print(direccion, cantidad, nombre)
-            verificar_nombre(nombre,cantidad,direccion)
-            
-    else:
-        form = VentaForm()
+        boleta_form = BoletaForm(request.POST)
+        formset = DetalleBoletaFormSet(request.POST)
 
-    return render(request, 'boleta/venta.html', {'form': form})
+        if boleta_form.is_valid():
+            # Primero, guarda la instancia de Boleta
+            boleta = boleta_form.save(commit=False)
+            boleta.save()  # Guarda la instancia de Boleta para obtener un ID
+
+            # Luego, maneja los formularios en línea para Detalle_boleta
+            formset = DetalleBoletaFormSet(request.POST, instance=boleta)
+            if formset.is_valid():
+                formset.save()
+
+                # Calcular el valor total después de guardar los Detalle_boleta
+                valor_total = sum([detalle.monto for detalle in boleta.detalle_boleta_set.all()])
+                boleta.valor = valor_total
+                boleta.save()
+
+                return redirect('http://127.0.0.1:8000/boletas/')  
+
+    else:
+        boleta_form = BoletaForm()
+        formset = DetalleBoletaFormSet()
+
+    return render(request, 'boleta/agregar.html', {
+        'boleta_form': boleta_form,
+        'formset': formset,
+    })    
+
+def actualizarBoleta(request, id):
+    boleta = Boleta.objects.get(id=id)
+    
+    boleta_form = BoletaUpdateForm(instance=boleta)
+
+    if request.method == 'POST':
+        boleta_form = BoletaUpdateForm(request.POST, instance=boleta)
+        if boleta_form.is_valid():
+            boleta_form.save()
+            return redirect('http://127.0.0.1:8000/boletas/')
+
+    return render(request, 'boleta/agregar.html', {'boleta_form': boleta_form})
+
 
 # CRUD factura
 
-def listadoFactura(request):
+'''def listadoFactura(request):
     facturas = Detalle_factura.objects.all()
 
     return render(request, 'facturas/lista.html', {'facturas': facturas})
@@ -149,7 +188,61 @@ def actualizarFactura(request, nro_factura):
             form.save()
         return listadoBoleta(request)
 
-    return render(request, 'facturas/agregar.html', {'form': form})
+    return render(request, 'facturas/agregar.html', {'form': form})'''
+    
+    
+
+def listadoFactura(request):
+    facturas = Factura.objects.all()
+
+    return render(request, 'facturas/lista.html', {'facturas': facturas})
+
+
+def crear_factura(request):
+    DetalleFacturaFormSet = inlineformset_factory(Factura, Detalle_factura, form=DetalleFacturaForm, extra=1)
+
+    if request.method == 'POST':
+        Factura_form = FacturaForm(request.POST)
+        formset = DetalleFacturaFormSet(request.POST)
+
+        if Factura_form.is_valid():
+            factura = Factura_form.save(commit=False)
+            factura.save()
+
+            formset = DetalleFacturaFormSet(request.POST, instance=factura)
+            if formset.is_valid():
+                formset.save()
+
+                valor_total = sum([detalle.precio for detalle in factura.detalle_factura_set.all()])
+                factura.valor = valor_total
+                factura.save()
+
+                return redirect('http://127.0.0.1:8000/facturas/')  
+
+    else:
+        factura_form = FacturaForm()
+        formset = DetalleFacturaFormSet()
+
+    return render(request, 'facturas/agregar.html', {
+        'factura_form': factura_form,
+        'formset': formset,
+    })  
+
+
+def actualizarFactura(request, id):
+    factura = Factura.objects.get(id=id)
+    
+    factura_form = FacturaUpdateForm(instance=factura)
+
+    if request.method == 'POST':
+        factura_form = FacturaUpdateForm(request.POST, instance=factura)
+        if factura_form.is_valid():
+            factura_form.save()
+            return redirect('http://127.0.0.1:8000/facturas/')
+
+    return render(request, 'facturas/agregar.html', {'factura_form': factura_form})
+    
+
 
 #empleados
 def listadousers(request):
@@ -228,3 +321,50 @@ def login_view(request):
 def signout(request):
     logout(request)
     return redirect('http://127.0.0.1:8000/')
+
+
+def listadoclientes_emp(request):
+    clientes = Cliente.objects.all()
+    
+    return render(request, 'clientes/lista_empleado.html', {'clientes':clientes})
+
+def listadoclientes_admin(request):
+    clientes = Cliente.objects.all()
+    
+    return render(request, 'clientes/lista_admin.html', {'clientes':clientes})
+
+def create_cliente_emp(request):
+        if request.method == 'POST':
+            form = FormCliente(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('http://127.0.0.1:8000/emp_clientes/')
+
+        else:
+            form = FormCliente()
+
+        return render(request, 'clientes/agregar.html', {'form': form})
+    
+def create_cliente_admin(request):
+        if request.method == 'POST':
+            form = FormCliente(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('http://127.0.0.1:8000/admin_clientes/')
+
+        else:
+            form = FormCliente()
+
+        return render(request, 'clientes/agregar.html', {'form': form})
+    
+    
+def actualizarCliente(request, id):
+    clientes = Cliente.objects.get(id = id)
+    form = FormCliente(instance=clientes)
+    if request.method == 'POST':
+        form = FormCliente(request.POST ,instance=clientes)
+        if form.is_valid():
+            form.save()
+        return redirect('http://127.0.0.1:8000/admin_clientes/')
+    
+    return render(request, 'clientes/agregar.html', {'form':form})

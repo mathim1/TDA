@@ -26,15 +26,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Factura',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sitio_compra', models.CharField(max_length=50)),
-                ('fecha_emision', models.DateTimeField(auto_now_add=True)),
-                ('nro_factura', models.UUIDField(default=uuid.uuid4, unique=True)),
-            ],
-        ),
-        migrations.CreateModel(
             name='Producto',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -52,17 +43,6 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50, unique=True)),
             ],
-        ),
-        migrations.CreateModel(
-            name='Detalle_factura',
-            fields=[
-                ('factura_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='gestion.factura')),
-                ('nombre_producto', models.CharField(max_length=50)),
-                ('cantidad', models.IntegerField()),
-                ('precio', models.IntegerField()),
-                ('proveedor', models.CharField(max_length=50)),
-            ],
-            bases=('gestion.factura',),
         ),
         migrations.CreateModel(
             name='User',
