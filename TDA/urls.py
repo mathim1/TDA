@@ -42,10 +42,12 @@ urlpatterns = [
     path('users/',listadousers),
     path('agregarUser/',create_user),
     path('actualizarUser/<int:id>',actualizarUser),
+    path('eliminaruser/<int:id>',eliminarUser),
     #re_path(r'^articulo/(?P<titulo>[\w\s-]+)/$', views.articulo_detalle, name='articulo_detalle'),
     path('emp_clientes/',listadoclientes_emp),
     path('admin_clientes/',listadoclientes_admin),
     path('agregarClienteEmp/',create_cliente_emp),
     path('agregarClienteAdmin/',create_cliente_admin),
-    path('actualizarCliente/<int:id>',actualizarCliente)
+    path('actualizarCliente/<int:id>',actualizarCliente),
+    path('eliminarCliente/<int:id>',eliminarCliente)
 ]

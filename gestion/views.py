@@ -285,6 +285,10 @@ def actualizarUser(request, rut):
     return render(request, 'empleados/agregar.html',{'form':form})
 
 
+def eliminarUser(request, id):
+    user = User.objects.get(id = id)
+    user.delete()
+    return redirect('/users')
 
 #inicio
 
@@ -368,3 +372,8 @@ def actualizarCliente(request, id):
         return redirect('http://127.0.0.1:8000/admin_clientes/')
     
     return render(request, 'clientes/agregar.html', {'form':form})
+
+def eliminarCliente(request, id):
+    cliente = Cliente.objects.get(id = id)
+    cliente.delete()
+    return redirect('/admin_clientes')

@@ -13,13 +13,13 @@
         <table class="table table-striped table-inverse table-responsive">
             <thead class="thead-inverse">
                 <tr>
-                    <th>nombre</th>
-                    <th>apellido paterno</th>
-                    <th>apellido materno</th>
-                    <th>rut</th>
-                    <th>rol</th>
-                    <th>email</th>
-                    <th>sueldo</th>
+                    <th>Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Rut</th>
+                    <th>Rol</th>
+                    <th>Email</th>
+                    <th>Sueldo</th>
                     <th>-</th>
                 </tr>
             </thead>
@@ -33,7 +33,8 @@
                     <td> {{ b.role.name }} </td>   
                     <td> {{ b.email }} </td>      
                     <td> {{b.sueldo}} </td>    
-                    <td><a href="/actualizarUser/{{b.rut}}" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i>actualizar</a></td>
+                    <td><a href="/actualizarUser/{{b.id}}" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i>Actualizar</a></td>
+                    <td><a href="/eliminaruser/{{b.id}}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i>Eliminar</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
