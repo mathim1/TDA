@@ -10,22 +10,22 @@ Este proyecto es un sistema de gestión de ventas, usuarios y clientes diseñado
 Sigue estos pasos para configurar el entorno de desarrollo:
 
 * Instalar Django: Django es un framework de alto nivel para el desarrollo web en Python. Para instalarlo, ejecuta el siguiente comando:
-pip install django
+`pip install django`
 
 * Instalar cx_Oracle: cx_Oracle es un módulo de Python que permite acceder a Oracle Database. Para instalarlo, utiliza el comando:
-pip install cx_oracle
+`pip install cx_oracle`
 
 * Instalar la librería hashlib: Hashlib se utiliza para el encriptado de contraseñas. Instálalo mediante pip con:
-pip install hashlib
+`pip install hashlib`
 
 * Instalar inlineformset_factory: Este componente de Django se utiliza para trabajar con formularios inline. Asegúrate de tenerlo instalado:
-pip install django-inlineformset-factory
+`pip install django-inlineformset-factory`
 
 * Instalar UUID: UUID se utiliza para la generación de identificadores únicos universales. Instálalo usando pip:
-pip install uuid
+`pip install uuid`
 
 * Realizar las migraciones: Las migraciones son necesarias para configurar la base de datos. Ejecuta el siguiente comando para realizarlas:
-python manage.py migrate
+`python manage.py migrate`
 Ahora el proyecto debe estar listo para ser ejecutado en tu entorno local.
 
 
