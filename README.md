@@ -19,7 +19,7 @@ Sigue estos pasos para configurar el entorno de desarrollo:
 `pip install hashlib`
 
 * Instalar inlineformset_factory: Este componente de Django se utiliza para trabajar con formularios inline. Asegúrate de tenerlo instalado:
-`pip install django-inlineformset-factory`
+`pip install django-extra-views`
 
 * Instalar UUID: UUID se utiliza para la generación de identificadores únicos universales. Instálalo usando pip:
 `pip install uuid`
