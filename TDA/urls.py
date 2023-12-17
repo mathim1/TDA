@@ -19,6 +19,7 @@ from gestion.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #vista principal
     path('', login_view, name='login'),
     path('logout/', signout, name='logout'),
     path('interfaz_admin/',Interfaz_admin),
@@ -43,7 +44,7 @@ urlpatterns = [
     path('agregarUser/',create_user),
     path('actualizarUser/<int:id>',actualizarUser),
     path('eliminaruser/<int:id>',eliminarUser),
-    #re_path(r'^articulo/(?P<titulo>[\w\s-]+)/$', views.articulo_detalle, name='articulo_detalle'),
+    #clientes
     path('emp_clientes/',listadoclientes_emp),
     path('admin_clientes/',listadoclientes_admin),
     path('agregarClienteEmp/',create_cliente_emp),

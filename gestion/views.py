@@ -57,42 +57,6 @@ def actualizarProducto(request, id):
 
 
 # CRUD boleta
-'''def listadoBoleta(request):
-    boletas = Detalle_boleta.objects.all()
-
-    return render(request, 'boleta/lista.html', {'boletas': boletas})
-
-
-class DetalleBoletaInline(InlineFormSetFactory):
-    model = Detalle_boleta
-    form_class = DetalleBoletaForm
-    fields = ['cantidad', 'producto', 'monto']
-    extra = 1  # Número de formularios DetalleBoleta para mostrar por defecto
-
-class BoletaCreateView(CreateWithInlinesView):
-    model = Boleta
-    form_class = BoletaForm
-    inlines = [DetalleBoletaInline]
-    template_name = 'boleta/agregar.html'
-    success_url = reverse_lazy('http://127.0.0.1:8000/boletas/')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['action'] = 'Crear Boleta'
-        return context
-
-
-def actualizarBoleta(request, id):
-    boletas = Detalle_boleta.objects.get(id=id)
-    detalle_boleta_form = DetalleBoletaForm(instance=boletas)
-    if request.method == 'POST':
-        detalle_boleta_form = DetalleBoletaForm(request.POST, instance=boletas)
-        if detalle_boleta_form.is_valid():
-            detalle_boleta_form.save()
-        return redirect('http://127.0.0.1:8000/boletas/')
-
-    return render(request, 'boleta/agregar.html', {'detalle_boleta_form': detalle_boleta_form})
-'''
 def listadoBoleta(request):
     boletas = Boleta.objects.all()
 
@@ -147,51 +111,6 @@ def actualizarBoleta(request, id):
 
 
 # CRUD factura
-
-'''def listadoFactura(request):
-    facturas = Detalle_factura.objects.all()
-
-    return render(request, 'facturas/lista.html', {'facturas': facturas})
-
-
-def agregarFactura(request):
-    if request.method == 'POST':
-        form = FormFactura(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('http://127.0.0.1:8000/facturas/')
-
-    else:
-        form = FormFactura()
-
-    return render(request, 'facturas/agregar.html', {'form': form})
-
-
-def create_detalle_factura(request):
-    if request.method == 'POST':
-        detalle_factura_form = FormFactura(request.POST)
-        if detalle_factura_form.is_valid():
-            detalle_factura_form.save()
-            return redirect('http://127.0.0.1:8000/facturas/')
-    else:
-        detalle_factura_form = FormFactura()
-
-    return render(request, 'facturas/agregar.html', {'detalle_factura_form': detalle_factura_form})
-
-
-def actualizarFactura(request, nro_factura):
-    facturas = Detalle_factura.objects.get(nro_factura=nro_factura)
-    form = FormFactura(instance=facturas)
-    if request.method == 'POST':
-        form = FormFactura(request.POST, instance=facturas)
-        if form.is_valid():
-            form.save()
-        return listadoBoleta(request)
-
-    return render(request, 'facturas/agregar.html', {'form': form})'''
-    
-    
-
 def listadoFactura(request):
     facturas = Factura.objects.all()
 
@@ -272,8 +191,8 @@ def create_user(request):
 
 
 
-def actualizarUser(request, rut):
-    users = User.objects.get(rut = rut)
+def actualizarUser(request, id):
+    users = User.objects.get(id = id)
     form = UserForm(instance=users)
     if request.method == 'POST':
         form = UserForm(request.POST ,instance=users)
@@ -310,7 +229,7 @@ def login_view(request):
                 messages.success(request, 'Inicio de sesión exitoso.')
                 redireccion(rut)
                 if redireccion(rut) == True:
-                    return redirect('http://127.0.0.1:8000/interfaz_admin/')  # Reemplaza 'inicio' con la ruta a donde quieras redirigir al usuario
+                    return redirect('http://127.0.0.1:8000/interfaz_admin/') 
                 
                 elif redireccion(rut) == False:
                     return redirect('http://127.0.0.1:8000/Interfaz_empleado/')
