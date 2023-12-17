@@ -18,10 +18,10 @@ pip install cx_oracle
 * Instalar la librería hashlib: Hashlib se utiliza para el encriptado de contraseñas. Instálalo mediante pip con:
 pip install hashlib
 
-*Instalar inlineformset_factory: Este componente de Django se utiliza para trabajar con formularios inline. Asegúrate de tenerlo instalado:
+* Instalar inlineformset_factory: Este componente de Django se utiliza para trabajar con formularios inline. Asegúrate de tenerlo instalado:
 pip install django-inlineformset-factory
 
-*Instalar UUID: UUID se utiliza para la generación de identificadores únicos universales. Instálalo usando pip:
+* Instalar UUID: UUID se utiliza para la generación de identificadores únicos universales. Instálalo usando pip:
 pip install uuid
 
 * Realizar las migraciones: Las migraciones son necesarias para configurar la base de datos. Ejecuta el siguiente comando para realizarlas:
