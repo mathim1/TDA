@@ -1,6 +1,7 @@
 # Ignorar el entorno virtual
 venv/
 env/
+myenv/
 
 # Ignorar archivos compilados
 *.pyc
