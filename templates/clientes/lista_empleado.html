@@ -5,20 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-    <div  class="alert alert-info display-1 text-center">LISTADO DE CLIENTES</div>
+    <div class="alert alert-info display-1 text-center">LISTADO DE CLIENTES</div>
         {% if clientes %}
 
         <table class="table table-striped table-inverse table-responsive">
             <thead class="thead-inverse">
                 <tr>
                     <th>Nombre</th>
-                    <th>apellido_p</th>
-                    <th>apellido_m</th>
-                    <th>rut</th>
-                    <th>email</th>
-                    <th>telefono</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Rut</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
                     <th>-</th>
                 </tr>
             </thead>
@@ -31,19 +32,24 @@
                     <td> {{ p.rut }} </td>
                     <td> {{ p.email }} </td>
                     <td> {{ p.telefono }} </td>
+                    {% block content %}
+                    <td><a href="/actualizarCliente/{{p.id}}" class="btn btn-success btn-sm"><i class="bi bi-pencil">actualizar</i></a></td>
+                    <td><a href="/eliminarCliente/{{p.id}}" class="btn btn-danger btn-sm"><i class="bi bi-trash">Eliminar</i></a></td>
+                    {% endblock %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
         <div>
-            <strong>no  hya bnada</strong>
+            <strong>NO DATA</strong>
         </div>
 
         {% endif %}
 
     
-        <a href="../agregarClienteEmp">AGREGAR</a>
+        <a href="../agregarClienteAdmin">AGREGAR</a>
+        <br>
         <a href="http://127.0.0.1:8000/Interfaz_empleado/">INICIO</a>
     
 </body>

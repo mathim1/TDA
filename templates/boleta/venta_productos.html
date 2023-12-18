@@ -1,49 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Crear Boleta</title>
-    {% load static %}
-    <link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Venta de Productos</title>
+    <!-- Incluir jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Añadir estilos y scripts adicionales si es necesario -->
 </head>
 <body>
     <form method="post">
         {% csrf_token %}
-        {{ boleta_form.as_p }}
+        <input type="hidden" name="direccion_venta" value="Local">
+        <input type="hidden" name="valor_total_venta" id="valor_total_venta" value="0.00">
+        <!-- Los campos de Boleta se manejan en el backend, por lo tanto, no se muestran aquí -->
 
         <div id="formset-container">
-            {{ formset.management_form }}
-            {% for form in formset %}
-                <div class="formset-form">
+            {% for form in detalle_formset %}
+                <div class="detalle-form formset-form">
                     {{ form.as_p }}
-                    <button type="button" class="delete-formset">Eliminar Detalle</button>
+                    <button type="button" class="delete-formset">Eliminar Producto</button>
                 </div>
             {% endfor %}
         </div>
-        <button type="button" id="add-formset">Agregar Detalle</button>
-        <button type="submit">Guardar</button>
+        <button type="button" id="add-formset">Agregar Producto</button>
+        <input type="submit" value="Generar Venta">
     </form>
 
+    <div id="mensaje-valor-total" style="display:none;">
+        <p>Valor Total de la Venta: <span id="valor-total"></span></p>
+    </div>
+
     <script>
-        var preciosProductos = {};
-
-        // Función para cargar los precios de los productos
-        function cargarPreciosProductos() {
-            $.getJSON('/obtener-precios-productos/', function(data) {
-                preciosProductos = data;
-                // Actualizar montos después de cargar los precios
-                $('.formset-form').each(function() {
-                    calculateMonto($(this));
-                });
-            });
-        }
-
         $(document).ready(function() {
+            var preciosProductos = {};
+    
+            // Función para cargar los precios de los productos
+            function cargarPreciosProductos() {
+                $.getJSON('/obtener-precios-productos/', function(data) {
+                    preciosProductos = data;
+                    $('.formset-form').each(function() {
+                        calculateMonto($(this));
+                    });
+                });
+            }
+    
             cargarPreciosProductos(); // Cargar precios al iniciar
             let formsetContainer = $('#formset-container');
             let totalForms = $('#id_detalle_boleta_set-TOTAL_FORMS');
             let formsetForm = $('.formset-form').first().clone(); // Clona el primer formulario
-
     
             // Limpia los valores de los campos clonados
             formsetForm.find(':input').each(function() {
@@ -53,18 +56,16 @@
             function calculateMonto(form) {
                 var cantidad = form.find('[name*=cantidad]').val();
                 var productoId = form.find('[name*=producto]').val();
-                var precio = preciosProductos[productoId] || 0; // Usa el precio del producto o 0 si no está definido
+                var precio = preciosProductos[productoId] || 0; 
                 var monto = cantidad * precio;
                 form.find('[name*=monto]').val(monto);
             }
     
-            // Evento de cambio para cantidad y producto
             formsetContainer.on('change', '[name*=cantidad], [name*=producto]', function() {
                 var form = $(this).closest('.formset-form');
                 calculateMonto(form);
             });
     
-            // Función para actualizar los índices de los formularios
             function updateFormIndices() {
                 formsetContainer.find('.formset-form').each(function(index) {
                     $(this).find(':input').each(function() {
@@ -78,10 +79,10 @@
                 });
             }
     
-            // Agregar nuevo formulario
             $('#add-formset').click(function() {
-                let newForm = formsetForm.clone();
                 let formCount = parseInt(totalForms.val());
+                let newForm = formsetForm.clone();
+    
                 newForm.find(':input').each(function() {
                     var name = $(this).attr('name');
                     if (name) {
@@ -90,9 +91,9 @@
                         $(this).attr({'name': name, 'id': id}).val('');
                     }
                 });
-                totalForms.val(formCount + 1);
+    
                 formsetContainer.append(newForm);
-                addDataAttributesToProductOptions();
+                totalForms.val(formCount + 1);
                 updateFormIndices();
             });
     
@@ -102,6 +103,38 @@
                 let formCount = parseInt(totalForms.val());
                 totalForms.val(formCount - 1);
                 updateFormIndices();
+            });
+    
+            // Enviar formulario y calcular el valor total
+            $('form').submit(function(event) {
+                event.preventDefault();
+    
+                var valorTotalVenta = 0;
+                $('.formset-form').each(function() {
+                    var monto = $(this).find('[name*=monto]').val();
+                    valorTotalVenta += parseFloat(monto || 0);
+                });
+    
+                $('#valor-total').text(valorTotalVenta.toFixed(2));
+                $('#mensaje-valor-total').show();
+                $('#valor_total_venta').val(valorTotalVenta.toFixed(2));
+    
+                // Enviar los datos del formulario usando AJAX
+                $.ajax({
+                    type: "POST",
+                    url: '',  // La URL del endpoint de tu servidor que maneja el POST
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Manejar la respuesta exitosa aquí
+                        alert("Venta realizada con éxito!");
+                        $('form')[0].reset();
+                    },
+                    error: function(error) {
+                        // Manejar errores aquí
+                        alert("Ocurrió un error al realizar la venta.");
+                        console.log(error);
+                    }
+                });
             });
     
             // Calcular el monto inicialmente para cada formulario

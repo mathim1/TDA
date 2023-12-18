@@ -11,3 +11,6 @@ db.sqlite3
 
 # Ignorar los archivos de cache de Python
 __pycache__/
+
+# Ignorar archivos de IDE
+.idea/

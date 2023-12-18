@@ -1,13 +1,14 @@
 from gestion.models import User
 from django.shortcuts import render, redirect
 
+
 def redireccion(rut):
     try:
-        u = User.objects.get(rut = rut)
+        u = User.objects.get(rut=rut)
         print(f"rol: {u.role.name}")
-        if u.role.name == 'Administrador':
+        if u.role.name == "Administrador":
             return True
-        elif u.role.name == 'Empleado':
+        elif u.role.name == "Empleado":
             return False
         else:
             return None

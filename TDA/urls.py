@@ -18,37 +18,39 @@ from django.urls import path, re_path
 from gestion.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    #vista principal
-    path('', login_view, name='login'),
-    path('logout/', signout, name='logout'),
-    path('interfaz_admin/',Interfaz_admin),
-    path('Interfaz_empleado/',Interfaz_empleado),
-    #productos
-    path('productos/',listadoProductos),
-    path('emp_productos/',listadoProductos_emp),
-    path('agregarProducto/',crear_producto),
-    path('eliminarProducto/<int:id>',eliminarProducto),
-    path('actualizarProducto/<int:id>',actualizarProducto),
-    #boletas
-    path('boletas/',listadoBoleta),
-    path('agregarBoleta/',crear_boleta),
-    path('actualizarBoleta/<int:id>',actualizarBoleta),
-    #path('venta/',venta),
-    #facturas
-    path('facturas/',listadoFactura),
-    path('agregarFactura/',crear_factura),
-    path('actualizarFactura/<int:id>',actualizarFactura),
-    #empleados
-    path('users/',listadousers),
-    path('agregarUser/',create_user),
-    path('actualizarUser/<int:id>',actualizarUser),
-    path('eliminaruser/<int:id>',eliminarUser),
-    #clientes
-    path('emp_clientes/',listadoclientes_emp),
-    path('admin_clientes/',listadoclientes_admin),
-    path('agregarClienteEmp/',create_cliente_emp),
-    path('agregarClienteAdmin/',create_cliente_admin),
-    path('actualizarCliente/<int:id>',actualizarCliente),
-    path('eliminarCliente/<int:id>',eliminarCliente)
+    path("admin/", admin.site.urls),
+    # vista principal
+    path("", login_view, name="login"),
+    path("logout/", signout, name="logout"),
+    path("interfaz_admin/", Interfaz_admin),
+    path("Interfaz_empleado/", Interfaz_empleado),
+    # productos
+    path("productos/", listadoProductos),
+    path("emp_productos/", listadoProductos_emp),
+    path("agregarProducto/", crear_producto),
+    path("eliminarProducto/<int:id>", eliminarProducto),
+    path("actualizarProducto/<int:id>", actualizarProducto),
+    # boletas
+    path("boletas/", listadoBoleta),
+    path("agregarBoleta/", crear_boleta),
+    path("actualizarBoleta/<int:id>", actualizarBoleta),
+    # path('venta/',venta),
+    path("venta/", venta_productos),
+    path('obtener-precios-productos/', obtener_precios_productos, name='obtener_precios_productos'),
+    # facturas
+    path("facturas/", listadoFactura),
+    path("agregarFactura/", crear_factura),
+    path("actualizarFactura/<int:id>", actualizarFactura),
+    # empleados
+    path("users/", listadousers),
+    path("agregarUser/", create_user),
+    path("actualizarUser/<int:id>", actualizarUser),
+    path("eliminaruser/<int:id>", eliminarUser),
+    # clientes
+    path("emp_clientes/", listadoclientes_emp),
+    path("admin_clientes/", listadoclientes_admin),
+    path("agregarClienteEmp/", create_cliente_emp),
+    path("agregarClienteAdmin/", create_cliente_admin),
+    path("actualizarCliente/<int:id>", actualizarCliente),
+    path("eliminarCliente/<int:id>", eliminarCliente),
 ]

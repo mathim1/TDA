@@ -1,6 +1,7 @@
 import hashlib
 from gestion.models import User, Password
 
+
 def verificar_credenciales(rut, password):
     try:
         user = User.objects.filter(rut=rut).first()
@@ -18,7 +19,9 @@ def verificar_credenciales(rut, password):
 
                 print(f"Hash almacenado de la contraseña: {stored_password_hash_hex}")
 
-                input_password_hash = hashlib.sha512(password.encode('utf-8')).hexdigest()
+                input_password_hash = hashlib.sha512(
+                    password.encode("utf-8")
+                ).hexdigest()
                 print(f"Hash de la contraseña ingresada: {input_password_hash}")
 
                 return input_password_hash == stored_password_hash_hex
@@ -27,4 +30,3 @@ def verificar_credenciales(rut, password):
     except Exception as e:
         print(f"Error: {e}")
         return False
-
